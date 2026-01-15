@@ -1320,6 +1320,23 @@
         }
 
         function showWarningModal() {
+            // Get current values from the edit form
+            const newBirthDate = document.querySelector('#editForm .date-input').value;
+            const newBirthPlace = document.querySelector('#editForm .place-input').value;
+            
+            // Get original values (from the view mode)
+            const originalDate = "13 October 1890";
+            const originalPlace = "Logan, Cache, Utah, United States";
+            
+            // Check if anything changed
+            if (newBirthDate === originalDate && newBirthPlace === originalPlace) {
+                // No changes made, just close and return to person page
+                closeBirthModal();
+                showViewMode();
+                return;
+            }
+            
+            // Changes were made, show warning modal
             // Transfer text from reason textarea to warning modal
             const reasonText = document.getElementById('reasonTextarea').value;
             const warningTextarea = document.getElementById('warningReason');
