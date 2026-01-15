@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Control - Person Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            color: #5cb85c;
+        }
+
+        .logo-text {
+            color: #5cb85c;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            padding: 8px 4px;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover {
+            color: #0066c0;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-btn:hover {
+            color: #333;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #d4a574;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Sub Navigation */
+        .sub-nav {
+            background-color: #8b1538;
+            color: white;
+        }
+
+        .sub-nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+        }
+
+        .tree-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tree-nav {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .tree-nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            padding: 8px 4px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .tree-nav a:hover,
+        .tree-nav a.active {
+            opacity: 1;
+            border-bottom: 2px solid white;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Person Header */
+        .person-header {
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+
+        .person-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .person-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .person-info h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .person-dates {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .person-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .person-action-link {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .person-action-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            background-color: white;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 32px;
+        }
+
+        .tab-link {
+            text-decoration: none;
+            color: #666;
+            font-size: 15px;
+            padding: 16px 0;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-link:hover {
+            color: #333;
+        }
+
+        .tab-link.active {
+            color: #0066c0;
+            border-bottom-color: #0066c0;
+        }
+
+        .tab-count {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vitals-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toggle-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .vital-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 0;
+        }
+
+        .vital-content {
+            flex: 1;
+        }
+
+        .vital-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .vital-label .source-count {
+            font-weight: 600;
+        }
+
+        .vital-value {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .vital-value strong {
+            font-weight: 600;
+        }
+
+        .edit-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .edit-btn:hover {
+            color: #333;
+        }
+
+        .edit-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Research Help Section */
+        .research-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .quality-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .quality-badge {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .link-button {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .link-button:hover {
+            text-decoration: underline;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 14px;
+            margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C10.9 2 10 2.9 10 4C10 4.7 10.4 5.4 11 5.7V7H7C5.3 7 4 8.3 4 10V11H2V13H4V15H2V17H4V18C4 19.7 5.3 21 7 21H11V19H7C6.4 19 6 18.6 6 18V17H11V15H6V13H11V11H6V10C6 9.4 6.4 9 7 9H11V10.3C10.4 10.6 10 11.3 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 11.3 13.6 10.6 13 10.3V9H17C17.6 9 18 9.4 18 10V11H13V13H18V15H13V17H18V18C18 18.6 17.6 19 17 19H13V21H17C18.7 21 20 19.7 20 18V17H22V15H20V13H22V11H20V10C20 8.3 18.7 7 17 7H13V5.7C13.6 5.4 14 4.7 14 4C14 2.9 13.1 2 12 2Z"/>
+                </svg>
+                <span class="logo-text">FamilySearch</span>
+            </a>
+            
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="#">Family Tree</a></li>
+                    <li><a href="#">Search</a></li>
+                    <li><a href="#">Memories</a></li>
+                    <li><a href="#">Get Involved</a></li>
+                    <li><a href="#">Activities</a></li>
+                    <li><a href="#">Temple</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-icons">
+                <button class="icon-btn" aria-label="Location">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Language">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Help">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Messages">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Notifications">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <div class="user-avatar"></div>
+                    <span class="user-name">Valerie</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <div class="sub-nav-content">
+            <div class="tree-title">
+                FamilySearch Tree
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+            
+            <ul class="tree-nav">
+                <li><a href="#">Tree</a></li>
+                <li><a href="#">Recents</a></li>
+                <li><a href="#">Find</a></li>
+                <li><a href="#">Following</a></li>
+                <li><a href="#">Person List</a></li>
+                <li><a href="#">My Contributions</a></li>
+                <li><a href="#">Family Groups</a></li>
+                <li><a href="#">CETs</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C10.9 2 10 2.9 10 4C10 4.7 10.4 5.4 11 5.7V7H7C5.3 7 4 8.3 4 10V11H2V13H4V15H2V17H4V18C4 19.7 5.3 21 7 21H11V19H7C6.4 19 6 18.6 6 18V17H11V15H6V13H11V11H6V10C6 9.4 6.4 9 7 9H11V10.3C10.4 10.6 10 11.3 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 11.3 13.6 10.6 13 10.3V9H17C17.6 9 18 9.4 18 10V11H13V13H18V15H13V17H18V18C18 18.6 17.6 19 17 19H13V21H17C18.7 21 20 19.7 20 18V17H22V15H20V13H22V11H20V10C20 8.3 18.7 7 17 7H13V5.7C13.6 5.4 14 4.7 14 4C14 2.9 13.1 2 12 2Z"/>
+                    </svg>
+                    Help Others
+                </button>
+                <button class="action-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Person Header -->
+    <div class="person-header">
+        <div class="person-header-content">
+            <img src="https://via.placeholder.com/80" alt="Cleo Cranney" class="person-photo">
+            <div class="person-info">
+                <h1>Cleo Cranney</h1>
+                <div class="person-dates">13 October 1890 – 30 September 2002 • KWCW-FG8</div>
+                <div class="person-actions">
+                    <a href="#" class="person-action-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C10.9 2 10 2.9 10 4C10 4.7 10.4 5.4 11 5.7V7H7C5.3 7 4 8.3 4 10V11H2V13H4V15H2V17H4V18C4 19.7 5.3 21 7 21H11V19H7C6.4 19 6 18.6 6 18V17H11V15H6V13H11V11H6V10C6 9.4 6.4 9 7 9H11V10.3C10.4 10.6 10 11.3 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 11.3 13.6 10.6 13 10.3V9H17C17.6 9 18 9.4 18 10V11H13V13H18V15H13V17H18V18C18 18.6 17.6 19 17 19H13V21H17C18.7 21 20 19.7 20 18V17H22V15H20V13H22V11H20V10C20 8.3 18.7 7 17 7H13V5.7C13.6 5.4 14 4.7 14 4C14 2.9 13.1 2 12 2Z"/>
+                        </svg>
+                        VIEW TREE
+                    </a>
+                    <a href="#" class="person-action-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        VIEW RELATIONSHIP
+                    </a>
+                    <a href="#" class="person-action-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        FOLLOW
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <div class="tab-nav-content">
+            <a href="#" class="tab-link">About</a>
+            <a href="#" class="tab-link active">Details</a>
+            <a href="#" class="tab-link">Sources <span class="tab-count">(46)</span></a>
+            <a href="#" class="tab-link">Collaborate <span class="tab-count">(0)</span></a>
+            <a href="#" class="tab-link">Memories <span class="tab-count">(30)</span></a>
+            <a href="#" class="tab-link">Time Line</a>
+            <a href="#" class="tab-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                    <path d="M12 2C10.9 2 10 2.9 10 4C10 4.7 10.4 5.4 11 5.7V7H7C5.3 7 4 8.3 4 10V11H2V13H4V15H2V17H4V18C4 19.7 5.3 21 7 21H11V19H7C6.4 19 6 18.6 6 18V17H11V15H6V13H11V11H6V10C6 9.4 6.4 9 7 9H11V10.3C10.4 10.6 10 11.3 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 11.3 13.6 10.6 13 10.3V9H17C17.6 9 18 9.4 18 10V11H13V13H18V15H13V17H18V18C18 18.6 17.6 19 17 19H13V21H17C18.7 21 20 19.7 20 18V17H22V15H20V13H22V11H20V10C20 8.3 18.7 7 17 7H13V5.7C13.6 5.4 14 4.7 14 4C14 2.9 13.1 2 12 2Z"/>
+                </svg>
+                Ordinances
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Vitals Section -->
+        <div class="vitals-section">
+            <div class="section-header">
+                <h2 class="section-title">Vitals</h2>
+                <div class="toggle-view">
+                    <input type="checkbox" id="detailView">
+                    <label for="detailView">Detail View</label>
+                </div>
+            </div>
+
+            <div class="vitals-grid">
+                <!-- Left Column -->
+                <div class="vital-column">
+                    <!-- Name -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Name • <span class="source-count">41 Sources</span></div>
+                            <div class="vital-value"><strong>Cleo Cranney</strong></div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit name">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Birth -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Birth • <span class="source-count">26 Sources</span></div>
+                            <div class="vital-value">13 October 1890<br>Logan, Cache, Utah, United States</div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit birth">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Death -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Death • <span class="source-count">7 Sources</span></div>
+                            <div class="vital-value">30 September 2002<br>Salt Lake City, Salt Lake, Utah, United States</div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit death">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="vital-column">
+                    <!-- Sex -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Sex • <span class="source-count">28 Sources</span></div>
+                            <div class="vital-value">Female</div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit sex">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Christening -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Christening • <span class="source-count">1 Source</span></div>
+                            <div class="vital-value">Logan, Cache, Utah, United States</div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit christening">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Burial -->
+                    <div class="vital-item">
+                        <div class="vital-content">
+                            <div class="vital-label">Burial • <span class="source-count">4 Sources</span></div>
+                            <div class="vital-value">5 October 2002<br>Elysian Burial Gardens, Millcreek, Salt Lake, Utah, United States</div>
+                        </div>
+                        <button class="edit-btn" aria-label="Edit burial">
+                            <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Help Section -->
+        <div class="research-section">
+            <div class="section-header">
+                <h2 class="section-title">Research Help</h2>
+            </div>
+            
+            <div class="quality-score">
+                <span>Quality Score:</span>
+                <span class="quality-badge">High</span>
+            </div>
+            
+            <a href="#" class="link-button">SHOW QUALITY DETAILS</a>
+            
+            <p class="info-text">There are no pending helps for this person.</p>
+            
+            <a href="#" class="link-button">SHOW ALL</a>
+        </div>
+    </div>
+
+    <script>
+        // Add interactivity for edit buttons
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const vitalType = this.getAttribute('aria-label').replace('Edit ', '');
+                alert(`Edit ${vitalType} - This would open an edit dialog`);
+            });
+        });
+
+        // Detail view toggle
+        document.getElementById('detailView').addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Detail view enabled');
+                // Add detail view functionality here
+            } else {
+                console.log('Detail view disabled');
+            }
+        });
+    </script>
+</body>
+</html>
