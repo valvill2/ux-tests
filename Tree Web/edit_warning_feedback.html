@@ -896,7 +896,7 @@
             </div>
             <div class="warning-footer">
                 <button class="btn btn-warning-cancel" onclick="closeWarningModal()">CANCEL</button>
-                <button class="btn btn-warning-save" id="saveChangesBtn" disabled>SAVE CHANGES</button>
+                <button class="btn btn-warning-save" id="saveChangesBtn" disabled onclick="saveChanges()">SAVE CHANGES</button>
             </div>
         </div>
     </div>
@@ -1350,6 +1350,15 @@
                 saveBtn.disabled = true;
                 saveBtn.classList.remove('enabled');
             }
+        }
+
+        function saveChanges() {
+            // Close warning modal
+            closeWarningModal();
+            // Close birth modal
+            closeBirthModal();
+            // Reset to view mode for next time
+            showViewMode();
         }
 
         // Close warning modal when clicking outside
