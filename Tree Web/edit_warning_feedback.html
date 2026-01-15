@@ -1359,6 +1359,33 @@
         }
 
         function saveChanges() {
+            // Get the updated birth information from the edit form
+            const newBirthDate = document.querySelector('#editForm .date-input').value;
+            const newBirthPlace = document.querySelector('#editForm .place-input').value;
+            
+            // Update the birth information in the view mode of the modal
+            const viewBirthValues = document.querySelectorAll('#viewContent .edit-value');
+            viewBirthValues[0].textContent = newBirthDate;
+            viewBirthValues[1].textContent = newBirthPlace;
+            
+            // Update the birth information on the main person page
+            const vitalItems = document.querySelectorAll('.vital-item');
+            // Find the birth vital item (it's the second one in the left column)
+            for (let item of vitalItems) {
+                const label = item.querySelector('.vital-label');
+                if (label && label.textContent.includes('Birth')) {
+                    const vitalValues = item.querySelectorAll('.vital-value');
+                    if (vitalValues.length >= 1) {
+                        // Update the innerHTML to preserve the line break
+                        item.querySelector('.vital-content').innerHTML = `
+                            <div class="vital-label">Birth <span class="source-count">• 26 Sources</span></div>
+                            <div class="vital-value">${newBirthDate}<br>${newBirthPlace}</div>
+                        `;
+                    }
+                    break;
+                }
+            }
+            
             // Close warning modal
             closeWarningModal();
             // Close birth modal
