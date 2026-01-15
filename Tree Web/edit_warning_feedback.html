@@ -276,6 +276,382 @@
             width: 20px;
             height: 20px;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: #666;
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .modal-left {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .modal-right {
+            width: 400px;
+            background-color: #f9f9f9;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .edit-section {
+            margin-bottom: 24px;
+        }
+
+        .edit-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .edit-value {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+
+        .edit-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .meta-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .edit-link {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+
+        .edit-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .edit-button:hover {
+            text-decoration: underline;
+        }
+
+        .sources-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .sources-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tag-sources-btn {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-sources-btn:hover {
+            text-decoration: underline;
+        }
+
+        .source-item {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .source-item:hover {
+            border-color: #0066c0;
+        }
+
+        .source-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .source-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .source-content {
+            flex: 1;
+        }
+
+        .source-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .source-meta {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .expand-icon {
+            width: 16px;
+            height: 16px;
+            color: #666;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="birthModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Birth</h2>
+                <button class="close-btn" onclick="closeBirthModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-left">
+                    <div class="edit-section">
+                        <label class="edit-label">Birth</label>
+                        <div class="edit-value">13 October 1890</div>
+                        <div class="edit-value">Logan, Cache, Utah, United States</div>
+                        <div class="edit-meta">
+                            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span>Last Changed: January 8, 2026</span>
+                            <span>Mary Anna Ebert</span>
+                        </div>
+                        <a href="#" class="edit-link">SEE ALL CHANGES</a>
+                    </div>
+                    <a href="#" class="edit-button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        EDIT
+                    </a>
+                </div>
+                <div class="modal-right">
+                    <div class="sources-header">
+                        <h3 class="sources-title">Sources (26)</h3>
+                        <a href="#" class="tag-sources-btn">TAG SOURCES</a>
+                    </div>
+                    
+                    <!-- Source Items -->
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Canney in household of Harriet Woolf, "United States Census, 1900"</div>
+                                <div class="source-meta">October 1890<br>Utah</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Cranney in household of Vera Cranney, "United States Census, 1910"</div>
+                                <div class="source-meta">1891<br>Utah</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Cranney, "Utah, Missionary Department Missionary Registers, 1860-1937"</div>
+                                <div class="source-meta">13 October 1890<br>Logan, Cache, Utah</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Cranney, "Utah Marriages, 1887-1935"</div>
+                                <div class="source-meta">13 October 1890<br>Logan, Ut</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Cranney, "Utah, County Marriages, 1887-1940"</div>
+                                <div class="source-meta">13 October 1890<br>Logan, Ut</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Cleo Hinckley in household of Ira P Hinckley, "United States Census, 1920"</div>
+                                <div class="source-meta">1891<br>Utah</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="source-item">
+                        <div class="source-header">
+                            <svg class="source-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <div class="source-content">
+                                <div class="source-title">Theo C Hinckley in household of Ira R Hinckley, "United States Census, 1930"</div>
+                                <div class="source-meta">1891<br>Utah</div>
+                            </div>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </style>
 </head>
 <body>
@@ -374,7 +750,7 @@
                                 <div class="vital-label">Birth <span class="source-count">• 26 Sources</span></div>
                                 <div class="vital-value">13 October 1890<br>Logan, Cache, Utah, United States</div>
                             </div>
-                            <button class="edit-btn" aria-label="Edit birth">
+                            <button class="edit-btn" aria-label="Edit birth" onclick="openBirthModal()">
                                 <svg class="edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -445,5 +821,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function openBirthModal() {
+            document.getElementById('birthModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBirthModal() {
+            document.getElementById('birthModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('birthModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBirthModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeBirthModal();
+            }
+        });
+    </script>
 </body>
 </html>
