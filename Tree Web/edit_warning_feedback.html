@@ -687,6 +687,219 @@
         .view-content.hidden {
             display: none;
         }
+
+        /* Warning Modal Styles */
+        .warning-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .warning-overlay.active {
+            display: flex;
+        }
+
+        .warning-modal {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .warning-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .warning-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .warning-body {
+            padding: 24px;
+        }
+
+        .warning-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .conflict-section {
+            margin-bottom: 24px;
+        }
+
+        .conflict-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .conflict-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .conflict-item:last-child {
+            border-bottom: none;
+        }
+
+        .conflict-icon {
+            width: 24px;
+            height: 24px;
+            color: #9c27b0;
+            flex-shrink: 0;
+        }
+
+        .conflict-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .required-section {
+            margin-top: 32px;
+        }
+
+        .required-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .required-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.2s;
+        }
+
+        .required-textarea:focus {
+            outline: none;
+            border-color: #0066c0;
+        }
+
+        .required-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .warning-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background-color: white;
+        }
+
+        .btn-warning-cancel {
+            background-color: white;
+            color: #0066c0;
+            border: 1px solid #0066c0;
+        }
+
+        .btn-warning-cancel:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-warning-save {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .btn-warning-save.enabled {
+            background-color: #0066c0;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-warning-save.enabled:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Warning Modal Overlay -->
+    <div class="warning-overlay" id="warningModal">
+        <div class="warning-modal">
+            <div class="warning-header">
+                <h2 class="warning-title">Change may lower Cleo's quality score</h2>
+                <button class="close-btn" onclick="closeWarningModal()">&times;</button>
+            </div>
+            <div class="warning-body">
+                <p class="warning-description">
+                    This happens when information conflicts with existing sources.<br>
+                    You can still save if you're confident this information is correct.
+                </p>
+                
+                <div class="conflict-section">
+                    <h3 class="conflict-title">Data Items in Conflict</h3>
+                    
+                    <div class="conflict-item">
+                        <svg class="conflict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        <div class="conflict-text">A residence happened before the birth.</div>
+                    </div>
+                    
+                    <div class="conflict-item">
+                        <svg class="conflict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        <div class="conflict-text">This person's parent, Harriet, died before this person was born.</div>
+                    </div>
+                    
+                    <div class="conflict-item">
+                        <svg class="conflict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        <div class="conflict-text">If Harriet was born 1 October 1920, this person would have been 9, which is normally before child bearing years.</div>
+                    </div>
+                </div>
+                
+                <div class="required-section">
+                    <label class="required-label">Why are you confident this change is correct?</label>
+                    <textarea class="required-textarea" id="warningReason" oninput="checkWarningReason()"></textarea>
+                    <div class="required-note">Required</div>
+                </div>
+            </div>
+            <div class="warning-footer">
+                <button class="btn btn-warning-cancel" onclick="closeWarningModal()">CANCEL</button>
+                <button class="btn btn-warning-save" id="saveChangesBtn" disabled>SAVE CHANGES</button>
+            </div>
+        </div>
+    </div>
     </style>
 </head>
 <body>
@@ -912,7 +1125,7 @@
             <div class="modal-footer" id="modalFooter" style="display: none;">
                 <div style="display: flex; gap: 12px; margin-left: auto;">
                     <button class="btn btn-cancel" onclick="showViewMode()">CANCEL</button>
-                    <button class="btn btn-save">SAVE</button>
+                    <button class="btn btn-save" onclick="showWarningModal()">SAVE</button>
                 </div>
             </div>
         </div>
@@ -1114,6 +1327,37 @@
             document.getElementById('backBtn').style.display = 'none';
             document.getElementById('modalFooter').style.display = 'none';
         }
+
+        function showWarningModal() {
+            document.getElementById('warningModal').classList.add('active');
+        }
+
+        function closeWarningModal() {
+            document.getElementById('warningModal').classList.remove('active');
+            document.getElementById('warningReason').value = '';
+            document.getElementById('saveChangesBtn').disabled = true;
+            document.getElementById('saveChangesBtn').classList.remove('enabled');
+        }
+
+        function checkWarningReason() {
+            const textarea = document.getElementById('warningReason');
+            const saveBtn = document.getElementById('saveChangesBtn');
+            
+            if (textarea.value.trim().length > 0) {
+                saveBtn.disabled = false;
+                saveBtn.classList.add('enabled');
+            } else {
+                saveBtn.disabled = true;
+                saveBtn.classList.remove('enabled');
+            }
+        }
+
+        // Close warning modal when clicking outside
+        document.getElementById('warningModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeWarningModal();
+            }
+        });
 
         // Close modal when clicking outside
         document.getElementById('birthModal').addEventListener('click', function(e) {
