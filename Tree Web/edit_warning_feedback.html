@@ -980,7 +980,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Reason This Information Is Correct</label>
-                                <textarea class="form-textarea"></textarea>
+                                <textarea class="form-textarea" id="reasonTextarea"></textarea>
                                 <div class="char-count">2,000</div>
                             </div>
 
@@ -1329,14 +1329,20 @@
         }
 
         function showWarningModal() {
+            // Transfer text from reason textarea to warning modal
+            const reasonText = document.getElementById('reasonTextarea').value;
+            const warningTextarea = document.getElementById('warningReason');
+            warningTextarea.value = reasonText;
+            
+            // Check and enable save button if there's text
+            checkWarningReason();
+            
             document.getElementById('warningModal').classList.add('active');
         }
 
         function closeWarningModal() {
             document.getElementById('warningModal').classList.remove('active');
-            document.getElementById('warningReason').value = '';
-            document.getElementById('saveChangesBtn').disabled = true;
-            document.getElementById('saveChangesBtn').classList.remove('enabled');
+            // Don't clear the textarea or disable button when closing
         }
 
         function checkWarningReason() {
@@ -1359,6 +1365,11 @@
             closeBirthModal();
             // Reset to view mode for next time
             showViewMode();
+            // Clear both textareas after successful save
+            document.getElementById('reasonTextarea').value = '';
+            document.getElementById('warningReason').value = '';
+            document.getElementById('saveChangesBtn').disabled = true;
+            document.getElementById('saveChangesBtn').classList.remove('enabled');
         }
 
         // Close warning modal when clicking outside
