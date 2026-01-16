@@ -314,6 +314,12 @@
             align-items: center;
         }
 
+        .modal-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .modal-title {
             font-size: 24px;
             font-weight: 600;
@@ -898,13 +904,15 @@
     <div class="modal-overlay" id="birthModal">
         <div class="modal">
             <div class="modal-header">
-                <button class="back-btn" id="backBtn" style="display: none;" onclick="showViewMode()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="19" y1="12" x2="5" y2="12"/>
-                        <polyline points="12 19 5 12 12 5"/>
-                    </svg>
-                </button>
-                <h2 class="modal-title">Birth</h2>
+                <div class="modal-header-left">
+                    <button class="back-btn" id="backBtn" style="display: none;" onclick="showViewMode()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"/>
+                            <polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                    </button>
+                    <h2 class="modal-title">Birth</h2>
+                </div>
                 <button class="close-btn" onclick="closeBirthModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -1129,9 +1137,6 @@
         <div class="sub-nav-content">
             <div class="tree-title">
                 <img src="images/family-search-logo.jpg" alt="FamilySearch" class="tree-logo">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"/>
-                </svg>
             </div>
             
             <ul class="tree-nav">
@@ -1187,11 +1192,6 @@
             <div class="section-header">
                 <div class="section-header-with-toggle">
                     <h2 class="section-title">Vitals</h2>
-                    <button class="collapse-btn" aria-label="Collapse section">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="18 15 12 9 6 15"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
 
@@ -1375,6 +1375,18 @@
             const viewBirthValues = document.querySelectorAll('#viewContent .edit-value');
             viewBirthValues[0].textContent = newBirthDate;
             viewBirthValues[1].textContent = newBirthPlace;
+            
+            // Update the birth date in the person header at the top of the page
+            const personDates = document.querySelector('.person-dates');
+            if (personDates) {
+                // Keep the death date and ID, just update the birth date
+                // Current format: "13 October 1890 – 30 September 2002 • KWCW-FG8"
+                const parts = personDates.textContent.split('–');
+                if (parts.length >= 2) {
+                    // Keep everything after the "–" and replace the birth date
+                    personDates.textContent = `${newBirthDate} – ${parts[1].trim()}`;
+                }
+            }
             
             // Update the birth information on the main person page
             const vitalItems = document.querySelectorAll('.vital-item');
