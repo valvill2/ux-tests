@@ -526,7 +526,6 @@
         const versionModal = document.getElementById('versionModal');
 
         logo.addEventListener('click', function(e) {
-            e.preventDefault();
             logoClickCount++;
 
             if (logoClickCount === 1) {
@@ -536,6 +535,7 @@
             }
 
             if (logoClickCount === 3) {
+                e.preventDefault();
                 clearTimeout(logoClickTimer);
                 logoClickCount = 0;
                 versionModal.classList.add('show');
