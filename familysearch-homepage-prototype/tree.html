@@ -433,7 +433,7 @@
             <button class="icon-btn" aria-label="Messages">
                 <span class="material-icons">chat_bubble_outline</span>
             </button>
-            <button class="icon-btn" aria-label="Notifications">
+            <button class="icon-btn" aria-label="Notifications" id="notificationBtn">
                 <span class="material-icons">notifications</span>
             </button>
         </div>
@@ -507,25 +507,25 @@
     </div>
 
     <script>
-        // Triple-click detection on logo
-        let logoClickCount = 0;
-        let logoClickTimer = null;
-        const logo = document.querySelector('.navbar-brand');
+        // Triple-click detection on notification bell
+        let bellClickCount = 0;
+        let bellClickTimer = null;
+        const notificationBtn = document.getElementById('notificationBtn');
         const versionModal = document.getElementById('versionModal');
 
-        logo.addEventListener('click', function(e) {
-            logoClickCount++;
+        notificationBtn.addEventListener('click', function(e) {
+            bellClickCount++;
 
-            if (logoClickCount === 1) {
-                logoClickTimer = setTimeout(() => {
-                    logoClickCount = 0;
+            if (bellClickCount === 1) {
+                bellClickTimer = setTimeout(() => {
+                    bellClickCount = 0;
                 }, 500);
             }
 
-            if (logoClickCount === 3) {
+            if (bellClickCount === 3) {
                 e.preventDefault();
-                clearTimeout(logoClickTimer);
-                logoClickCount = 0;
+                clearTimeout(bellClickTimer);
+                bellClickCount = 0;
                 versionModal.classList.add('show');
             }
         });
