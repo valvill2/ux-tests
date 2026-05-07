@@ -551,6 +551,12 @@
         });
 
         // Version management
+        // Check URL parameter first, then sessionStorage, default to A
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlVersion = urlParams.get('version');
+        if (urlVersion === 'A' || urlVersion === 'B') {
+            sessionStorage.setItem('siteVersion', urlVersion);
+        }
         let currentVersion = sessionStorage.getItem('siteVersion') || 'A';
         const toggleA = document.getElementById('toggleA');
         const toggleB = document.getElementById('toggleB');
