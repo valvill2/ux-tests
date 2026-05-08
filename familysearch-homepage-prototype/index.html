@@ -919,6 +919,18 @@
                     <div class="dropdown-section-header">My Trees</div>
                     <a href="my-trees.html" class="dropdown-item">Manage Trees</a>
                 </div>
+                <div class="dropdown-menu" id="familyTreeMenuC" style="display: none;">
+                    <div class="dropdown-item" data-tree-select="familysearch" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="tree-dropdown-icon" style="background-image: url('familysearch-tree-icon.png'); width: 32px; height: 32px; background-size: cover; border-radius: 4px; flex-shrink: 0;"></div>
+                        <span style="flex: 1;">FamilySearch Tree</span>
+                        <span class="material-icons" style="font-size: 20px; color: #333;">check</span>
+                    </div>
+                    <div class="dropdown-divider" id="treesYouOwnDivider" style="display: none;"></div>
+                    <div class="dropdown-section-header" id="treesYouOwnHeader" style="display: none;">Trees you Own</div>
+                    <div id="ownedTreesList"></div>
+                    <div class="dropdown-divider"></div>
+                    <a href="my-trees.html" class="dropdown-item">Manage Trees</a>
+                </div>
             </li>
             <li class="nav-item"><a href="#" class="nav-link">Search</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Memories</a></li>
@@ -958,6 +970,12 @@
             <div class="version-option">
                 <span class="version-label">Version B</span>
                 <div class="version-toggle" id="toggleB" data-version="B">
+                    <div class="version-toggle-slider"></div>
+                </div>
+            </div>
+            <div class="version-option">
+                <span class="version-label">Version C</span>
+                <div class="version-toggle" id="toggleC" data-version="C">
                     <div class="version-toggle-slider"></div>
                 </div>
             </div>
@@ -1293,27 +1311,81 @@
         // Check URL parameter first, then sessionStorage, default to A
         const urlParams = new URLSearchParams(window.location.search);
         const urlVersion = urlParams.get('version');
-        if (urlVersion === 'A' || urlVersion === 'B') {
+        if (urlVersion === 'A' || urlVersion === 'B' || urlVersion === 'C') {
             sessionStorage.setItem('siteVersion', urlVersion);
         }
         let currentVersion = sessionStorage.getItem('siteVersion') || 'A';
         const toggleA = document.getElementById('toggleA');
         const toggleB = document.getElementById('toggleB');
+        const toggleC = document.getElementById('toggleC');
         const menuA = document.getElementById('familyTreeMenu');
         const menuB = document.getElementById('familyTreeMenuB');
+        const menuC = document.getElementById('familyTreeMenuC');
+        const familyTreeLink = document.getElementById('familyTreeLink');
 
         // Initialize version on page load
         function initializeVersion() {
             if (currentVersion === 'A') {
                 toggleA.classList.add('active');
                 toggleB.classList.remove('active');
+                toggleC.classList.remove('active');
                 menuA.style.display = '';
                 menuB.style.display = 'none';
-            } else {
+                menuC.style.display = 'none';
+                familyTreeLink.textContent = 'Family Tree';
+                // Show tree selector for version A
+                if (treeSelectorWrapper) treeSelectorWrapper.style.display = 'flex';
+            } else if (currentVersion === 'B') {
                 toggleA.classList.remove('active');
                 toggleB.classList.add('active');
+                toggleC.classList.remove('active');
                 menuA.style.display = 'none';
                 menuB.style.display = '';
+                menuC.style.display = 'none';
+                familyTreeLink.textContent = 'Family Tree';
+                // Show tree selector for version B
+                if (treeSelectorWrapper) treeSelectorWrapper.style.display = 'flex';
+            } else if (currentVersion === 'C') {
+                toggleA.classList.remove('active');
+                toggleB.classList.remove('active');
+                toggleC.classList.add('active');
+                menuA.style.display = 'none';
+                menuB.style.display = 'none';
+                menuC.style.display = '';
+                familyTreeLink.textContent = 'Trees';
+                // Hide tree selector for version C
+                if (treeSelectorWrapper) treeSelectorWrapper.style.display = 'none';
+                // Update menu with uploaded trees
+                updateVersionCMenu();
+            }
+        }
+
+        // Update Version C menu with uploaded trees
+        function updateVersionCMenu() {
+            const hasUploadedTrees = localStorage.getItem('hasUploadedTrees') === 'true';
+            const ownedTreesList = document.getElementById('ownedTreesList');
+            const treesYouOwnHeader = document.getElementById('treesYouOwnHeader');
+            const treesYouOwnDivider = document.getElementById('treesYouOwnDivider');
+
+            if (hasUploadedTrees) {
+                treesYouOwnDivider.style.display = '';
+                treesYouOwnHeader.style.display = '';
+
+                // Add uploaded trees (House of Windsor and Villalobos for demo)
+                ownedTreesList.innerHTML = `
+                    <div class="dropdown-item" data-tree-select="windsor" style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0;">H</div>
+                        <span style="flex: 1;">House of Windsor</span>
+                    </div>
+                    <div class="dropdown-item" data-tree-select="villalobos" style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0;">D</div>
+                        <span style="flex: 1;">Daughters of the American...</span>
+                    </div>
+                `;
+            } else {
+                treesYouOwnDivider.style.display = 'none';
+                treesYouOwnHeader.style.display = 'none';
+                ownedTreesList.innerHTML = '';
             }
         }
 
@@ -1332,6 +1404,12 @@
         toggleB.addEventListener('click', function() {
             if (currentVersion !== 'B') {
                 switchVersion('B');
+            }
+        });
+
+        toggleC.addEventListener('click', function() {
+            if (currentVersion !== 'C') {
+                switchVersion('C');
             }
         });
 
@@ -1561,7 +1639,14 @@
 
         familyTreeLink.addEventListener('click', function(e) {
             e.preventDefault();
-            const activeMenu = currentVersion === 'A' ? menuA : menuB;
+            let activeMenu;
+            if (currentVersion === 'A') {
+                activeMenu = menuA;
+            } else if (currentVersion === 'B') {
+                activeMenu = menuB;
+            } else {
+                activeMenu = menuC;
+            }
             const isOpen = activeMenu.classList.toggle('show');
 
             // Toggle active state
@@ -1577,6 +1662,7 @@
             if (!e.target.closest('.nav-item')) {
                 menuA.classList.remove('show');
                 menuB.classList.remove('show');
+                menuC.classList.remove('show');
                 familyTreeLink.classList.remove('active');
             }
         });
