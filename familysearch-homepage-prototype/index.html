@@ -1273,7 +1273,7 @@
         const treeSelectorWrapper = document.getElementById('treeSelectorWrapper');
 
         // Hide tree selector, info button, and go to tree button if no trees uploaded
-        if (!hasUploadedTrees) {
+        if (treeSelectorWrapper && !hasUploadedTrees) {
             treeSelectorWrapper.style.display = 'none';
         }
 
