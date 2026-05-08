@@ -967,40 +967,42 @@
         <!-- Left Column -->
         <div class="left-column">
             <!-- Tree Selector -->
-            <div class="tree-selector-wrapper">
-                <div class="tree-selector">
-                    <button class="tree-select-button" id="treeSelectorBtn">
-                        FamilySearch Tree
+            <div class="tree-selector-wrapper" id="treeSelectorWrapper">
+                <div class="tree-selector-left">
+                    <div class="tree-selector">
+                        <button class="tree-select-button" id="treeSelectorBtn">
+                            FamilySearch Tree
+                        </button>
+                        <div class="tree-dropdown" id="treeDropdown">
+                            <div class="tree-dropdown-item selected" data-tree="familysearch">
+                                <div class="tree-dropdown-icon" style="background-image: url('familysearch-tree-icon.png');"></div>
+                                <span>FamilySearch Tree</span>
+                                <span class="material-icons checkmark">check</span>
+                            </div>
+
+                            <div class="tree-dropdown-section">Trees You Own</div>
+
+                            <div class="tree-dropdown-item" data-tree="windsor">
+                                <div class="tree-dropdown-icon" style="background-image: url('house-of-windsor-crest.png');"></div>
+                                <span>House of Windsor</span>
+                            </div>
+
+                            <div class="tree-dropdown-item" data-tree="villalobos-own">
+                                <div class="tree-dropdown-icon" style="background-image: url('villalobos-family.png');"></div>
+                                <span>Villalobos Tree</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="info-icon-btn" aria-label="Information" id="infoBtn">
+                        <span class="material-icons">info_outline</span>
+                        <div class="info-tooltip" id="infoTooltip">
+                            Homepage content is based on your preferred tree. Change your preference in tree settings.
+                        </div>
                     </button>
-                    <div class="tree-dropdown" id="treeDropdown">
-                        <div class="tree-dropdown-item selected" data-tree="familysearch">
-                            <div class="tree-dropdown-icon" style="background-image: url('familysearch-tree-icon.png');"></div>
-                            <span>FamilySearch Tree</span>
-                            <span class="material-icons checkmark">check</span>
-                        </div>
 
-                        <div class="tree-dropdown-section">Trees You Own</div>
-
-                        <div class="tree-dropdown-item" data-tree="windsor">
-                            <div class="tree-dropdown-icon" style="background-image: url('house-of-windsor-crest.png');"></div>
-                            <span>House of Windsor</span>
-                        </div>
-
-                        <div class="tree-dropdown-item" data-tree="villalobos-own">
-                            <div class="tree-dropdown-icon" style="background-image: url('villalobos-family.png');"></div>
-                            <span>Villalobos Tree</span>
-                        </div>
-                    </div>
+                    <button class="go-to-tree-btn" id="goToTreeBtn">Go to tree</button>
                 </div>
-
-                <button class="info-icon-btn" aria-label="Information" id="infoBtn">
-                    <span class="material-icons">info_outline</span>
-                    <div class="info-tooltip" id="infoTooltip">
-                        Homepage content is based on your preferred tree. Change your preference in tree settings.
-                    </div>
-                </button>
-
-                <button class="go-to-tree-btn" id="goToTreeBtn">Go to tree</button>
             </div>
 
             <!-- AI Research Assistant -->
@@ -1241,6 +1243,15 @@
     </div>
 
     <script>
+        // Check if user has uploaded trees (stored in localStorage)
+        const hasUploadedTrees = localStorage.getItem('hasUploadedTrees') === 'true';
+        const treeSelectorWrapper = document.getElementById('treeSelectorWrapper');
+
+        // Hide tree selector, info button, and go to tree button if no trees uploaded
+        if (!hasUploadedTrees) {
+            treeSelectorWrapper.style.display = 'none';
+        }
+
         // Triple-click detection on notification bell
         let bellClickCount = 0;
         let bellClickTimer = null;

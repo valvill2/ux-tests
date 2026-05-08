@@ -685,11 +685,12 @@
             }
         });
 
-        // Check if trees have been uploaded during this session
+        // Check if trees have been uploaded (check both localStorage and sessionStorage)
         window.addEventListener('DOMContentLoaded', function() {
+            const hasUploadedTrees = localStorage.getItem('hasUploadedTrees') === 'true';
             const treesUploaded = sessionStorage.getItem('treesUploaded');
 
-            if (treesUploaded === 'true') {
+            if (hasUploadedTrees || treesUploaded === 'true') {
                 // Show uploaded trees view
                 document.getElementById('emptyState').style.display = 'none';
                 document.getElementById('uploadedTrees').style.display = 'block';
@@ -712,7 +713,8 @@
                 // Show uploaded trees
                 document.getElementById('uploadedTrees').style.display = 'block';
 
-                // Save state to sessionStorage (persists during session, clears on refresh)
+                // Save state to localStorage (persists across sessions)
+                localStorage.setItem('hasUploadedTrees', 'true');
                 sessionStorage.setItem('treesUploaded', 'true');
 
                 // Scroll to top
