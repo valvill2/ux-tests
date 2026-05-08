@@ -670,7 +670,7 @@
             if (confirm('This will reset the prototype and clear all uploaded trees. Continue?')) {
                 localStorage.removeItem('hasUploadedTrees');
                 sessionStorage.removeItem('treesUploaded');
-                location.reload();
+                window.location.href = 'index.html';
             }
         });
 
